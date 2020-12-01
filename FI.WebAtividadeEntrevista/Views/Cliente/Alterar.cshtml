@@ -1,0 +1,26 @@
+﻿@model WebAtividadeEntrevista.Models.ClienteModel
+@{
+    ViewBag.Title = "Alterar Cliente";
+}
+@section scripts{
+    <script>
+        var urlPost = '@Url.Action("Alterar", "Cliente", new { area = "" })';
+        var obj = @Html.Raw(Json.Encode(Model));
+        var urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
+        $(function () {
+            $(".beneficiarios").click(function () {
+                $("#modal").load('@Url.Action("Index", "Beneficiario", new { id= @Html.Raw(Model.Id.ToString()) })', function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+    </script>
+    @Scripts.Render("~/bundles/altClientes")
+    @Scripts.Render("~/bundles/mascara")
+}
+<h2>@Html.Raw(ViewBag.Title)</h2>
+@Html.Partial("Forms")
+
+@section modals{
+    <div id="modal" class="modal fade" role="dialog" />
+}
