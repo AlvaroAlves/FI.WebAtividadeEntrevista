@@ -66,9 +66,5 @@ namespace FI.AtividadeEntrevista.DML
         /// </summary>
         public string Telefone { get; set; }  
         
-        /// <summary>
-        /// Lista dos beneficiarios do cliente
-        /// </summary>
-        public List<Beneficiario> Beneficiarios { get; set; }
     }    
 }
