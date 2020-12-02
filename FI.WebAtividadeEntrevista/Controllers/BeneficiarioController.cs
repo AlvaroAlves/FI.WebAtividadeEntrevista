@@ -14,7 +14,7 @@ namespace WebAtividadeEntrevista.Controllers
         // GET: Beneficiario
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public ActionResult Incluir()

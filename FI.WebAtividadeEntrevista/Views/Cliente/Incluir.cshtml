@@ -5,6 +5,8 @@
 @section scripts{
     <script>
         var urlPost = '@Url.Action("Incluir", "Cliente", new { area = "" })';
+        var urlModal = '@Url.Action("Index", "Beneficiario")';
+        var urlIncluirBenef = '@Url.Action("Incluir", "Beneficiario", new { area = "" })';
     </script>
     @Scripts.Render("~/bundles/clientes")
     @Scripts.Render("~/bundles/mascara")
@@ -15,5 +17,5 @@
 @Html.Partial("Forms")
 
 @section modals{
-    <div id="modal" class="modal fade" role="dialog" />
+    <div id="modal" class="modal fade" role="dialog"/>
 }

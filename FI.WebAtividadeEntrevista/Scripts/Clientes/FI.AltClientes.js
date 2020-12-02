@@ -47,7 +47,7 @@ $(document).ready(function () {
                         altBenef(window.objBenef[i], r);
                     }
                 }
-                ModalDialog("Sucesso!", r)
+                ModalDialog("Sucesso!", "Cadastro Atualizado com sucesso!")
                 $("#formCadastro")[0].reset();                                
                 window.location.href = urlRetorno;
             }

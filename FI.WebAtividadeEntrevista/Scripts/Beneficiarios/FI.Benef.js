@@ -15,12 +15,18 @@ $(function () {
             for (var i = 0; i < window.objBenef.length; i++) {
                 var node = document.createElement("tr");
                 node.id = "ben" + window.objBenef[i].cpf;
-                var row = document.createElement("td");
-                row.innerHTML = window.objBenef[i].cpf;
-                node.appendChild(row);
-                var row2 = document.createElement("td");
-                row2.innerHTML = window.objBenef[i].nome;
-                node.appendChild(row2);
+                var col = document.createElement("td");
+                col.innerHTML = window.objBenef[i].cpf;
+                node.appendChild(col);
+                var col2 = document.createElement("td");
+                col2.innerHTML = window.objBenef[i].nome;
+                node.appendChild(col2);
+                var col3 = document.createElement("td");
+                col3.innerHTML = '<button type="button" class="btn btn-primary pull-right">Alterar</button>';
+                node.appendChild(col3);
+                var col4 = document.createElement("td");
+                col4.innerHTML = '<button type="button" class="btn btn-primary">Excluir</button>'
+                node.appendChild(col4);
                 dvTable.appendChild(node);
             }
 
@@ -44,12 +50,18 @@ function addBenef() {
     for (var i = 0; i < window.objBenef.length; i++) {
         var node = document.createElement("tr");
         node.id = "ben" + window.objBenef[i].cpf;
-        var row = document.createElement("td");
-        row.innerHTML = window.objBenef[i].cpf;
-        node.appendChild(row);
-        var row2 = document.createElement("td");
-        row2.innerHTML = window.objBenef[i].nome;
-        node.appendChild(row2);
+        var col = document.createElement("td");
+        col.innerHTML = window.objBenef[i].cpf;
+        node.appendChild(col);
+        var col2 = document.createElement("td");
+        col2.innerHTML = window.objBenef[i].nome;
+        node.appendChild(col2);
+        var col3 = document.createElement("td");
+        col3.innerHTML = '<button type="button" class="btn btn-primary pull-right">Alterar</button>';
+        node.appendChild(col3);
+        var col4 = document.createElement("td");
+        col4.innerHTML = '<button type="button" class="btn btn-primary">Excluir</button>'
+        node.appendChild(col4);
         dvTable.appendChild(node);
     }
 
