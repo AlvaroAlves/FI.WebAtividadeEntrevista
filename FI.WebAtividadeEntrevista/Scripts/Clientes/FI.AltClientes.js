@@ -40,6 +40,13 @@ $(document).ready(function () {
             },
             success:
             function (r) {
+                for (var i = 0; i < window.objBenef.length; i++) {
+                    if (window.objBenef[i].id == "") {
+                        incluirBenef(window.objBenef[i], r)
+                    } else {
+                        altBenef(window.objBenef[i], r);
+                    }
+                }
                 ModalDialog("Sucesso!", r)
                 $("#formCadastro")[0].reset();                                
                 window.location.href = urlRetorno;

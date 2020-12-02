@@ -240,3 +240,51 @@ function filtraCampo(campo) {
     //return campo.value.replace("/", "").replace("-", "").replace(".", "").replace(",", "")
 
 }
+
+// move o cursor para a posição pos
+
+function MovimentaCursor(textarea, pos) {
+
+    if (pos <= 0)
+
+        return; //se a posição for 0 não reposiciona
+
+
+
+    if (typeof (document.selection) != 'undefined') {
+
+        //IE
+
+        var oRange = textarea.createTextRange();
+
+        var LENGTH = 1;
+
+        var STARTINDEX = pos;
+
+
+
+        oRange.moveStart("character", -textarea.value.length);
+
+        oRange.moveEnd("character", -textarea.value.length);
+
+        oRange.moveStart("character", pos);
+
+        //oRange.moveEnd("character", pos);
+
+        oRange.select();
+
+        textarea.focus();
+
+    }
+
+    if (typeof (textarea.selectionStart) != 'undefined') {
+
+        //FireFox
+
+        textarea.selectionStart = pos;
+
+        textarea.selectionEnd = pos;
+
+    }
+
+}

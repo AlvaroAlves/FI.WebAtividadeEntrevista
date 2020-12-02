@@ -42,6 +42,11 @@ namespace WebAtividadeEntrevista
             bundles.Add(new StyleBundle("~/Content/jtable").Include(
                       "~/Scripts/jtable/themes/metro/darkgray/jtable.css"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/benef").Include(
+                      "~/Scripts/Beneficiarios/FI.Benef.js"));
+            bundles.Add(new ScriptBundle("~/bundles/altbenef").Include(
+                      "~/Scripts/Beneficiarios/FI.AltBenef.js"));
         }
     }
 }

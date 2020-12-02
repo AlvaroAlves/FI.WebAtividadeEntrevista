@@ -102,7 +102,6 @@ namespace FI.AtividadeEntrevista.DAL
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", 0));
             parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", Id));
 
             DataSet ds = base.Consultar("FI_SP_ConsBeneficiarioPorCliente", parametros);

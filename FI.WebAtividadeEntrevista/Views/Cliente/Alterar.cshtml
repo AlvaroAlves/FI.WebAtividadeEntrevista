@@ -7,16 +7,18 @@
         var urlPost = '@Url.Action("Alterar", "Cliente", new { area = "" })';
         var obj = @Html.Raw(Json.Encode(Model));
         var urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
-        $(function () {
-            $(".beneficiarios").click(function () {
-                $("#modal").load('@Url.Action("Index", "Beneficiario", new { id= @Html.Raw(Model.Id.ToString()) })', function () {
-                    $("#modal").modal();
-                })
-            });
-        })
+        var urlAlterarBenef = '@Url.Action("Alterar", "Beneficiario", new { area = "" })';
+        var urlIncluirBenef = '@Url.Action("Incluir", "Beneficiario", new { area = "" })';
+        var urlListarBenef ='@Url.Action("BeneficiarioList", "Beneficiario", new { area = "" })';
+        var urlModal = '@Url.Action("Index", "Beneficiario")';
     </script>
     @Scripts.Render("~/bundles/altClientes")
     @Scripts.Render("~/bundles/mascara")
+    @Scripts.Render("~/bundles/benef")
+    @Scripts.Render("~/bundles/altbenef")
+    <script>
+        listBenef(@Html.Raw(Model.Id.ToString()));
+    </script>
 }
 <h2>@Html.Raw(ViewBag.Title)</h2>
 @Html.Partial("Forms")

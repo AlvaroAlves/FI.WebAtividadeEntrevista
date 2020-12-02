@@ -91,8 +91,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF.Replace(".", "").Replace("-", "")
                 });
-                               
-                return Json("Cadastro alterado com sucesso");
+                
+                return Json(model.Id);
             }
         }
 

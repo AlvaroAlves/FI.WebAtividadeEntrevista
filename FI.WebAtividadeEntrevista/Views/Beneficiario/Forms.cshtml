@@ -1,5 +1,6 @@
 ﻿<form id="formBeneficiarios" method="post">
     <div class="row">
+        <input type="hidden" id="idBenef" value="" />
         <div class="form-group col-md-5">
             <label for="CPF">CPF:</label>
             <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 010.011.111-00" onkeyup="formataCPF(this,event);" maxlength="14">
@@ -9,7 +10,20 @@
             <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João da Silva" maxlength="50">
         </div>
         <div class="form-group col-md-2">
-            <button type="submit" class="btn btn-success">Incluir</button>
+            <button type="button" onclick="addBenef();" class="btn btn-success">Incluir</button>
         </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">CPF</th>
+                    <th scope="col" colspan="2">Nome</th>
+                </tr>
+            </thead>
+            <tbody id="tabBenef">
+                
+            </tbody>
+        </table>
     </div>
 </form>
