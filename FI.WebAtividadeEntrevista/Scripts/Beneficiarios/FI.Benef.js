@@ -22,10 +22,10 @@ $(function () {
                 col2.innerHTML = window.objBenef[i].nome;
                 node.appendChild(col2);
                 var col3 = document.createElement("td");
-                col3.innerHTML = '<button type="button" class="btn btn-primary pull-right">Alterar</button>';
+                col3.innerHTML = '<button type="button" class="btn btn-primary pull-right" onClick = "editBenef(\'' + node.id + '\');">Alterar</button>';
                 node.appendChild(col3);
                 var col4 = document.createElement("td");
-                col4.innerHTML = '<button type="button" class="btn btn-primary" onClick = "removeBenef(\'' + window.objBenef[i].id + '\',\'' + node.id + '\');">Excluir</button>';
+                col4.innerHTML = '<button type="button" class="btn btn-primary" onClick = "removeBenef(\'' + node.id + '\');">Excluir</button>';
                 node.appendChild(col4);
                 dvTable.appendChild(node);
             }
@@ -35,9 +35,36 @@ $(function () {
     });
 })
 
+function TestaCPF(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+    if (strCPF == "00000000000") return false;
+
+    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+    return true;
+}
+
 function addBenef() {
 
     var form = document.forms["formBeneficiarios"].getElementsByTagName("input");
+
+    if (!TestaCPF(form.CPF.value.replace("/", "").replace("-", ""))) {
+        ModalDialog("Erro!", "CPF inválido!");
+        return;
+    }
+        
 
     if (document.getElementById(form.CPF.value))
         return;
@@ -57,10 +84,10 @@ function addBenef() {
         col2.innerHTML = window.objBenef[i].nome;
         node.appendChild(col2);
         var col3 = document.createElement("td");
-        col3.innerHTML = '<button type="button" class="btn btn-primary pull-right">Alterar</button>';
+        col3.innerHTML = '<button type="button" class="btn btn-primary pull-right" onClick = "editBenef(\'' + node.id + '\');">Alterar</button>';
         node.appendChild(col3);
         var col4 = document.createElement("td");
-        col4.innerHTML = '<button type="button" class="btn btn-primary" onClick = "removeBenef(\'' + window.objBenef[i].id + '\',\'' + node.id + '\');">Excluir</button>';
+        col4.innerHTML = '<button type="button" class="btn btn-primary" onClick = "removeBenef(\'' + node.id + '\');">Excluir</button>';
         node.appendChild(col4);
         dvTable.appendChild(node);
     }
@@ -89,11 +116,28 @@ function incluirBenef(objBenef, idCliente) {
     });
 };
 
-function removeBenef(idBenef, idRow) {
+function removeBenef(idRow) {
     var r = confirm("Deseja excluir o beneficiário?");
     if (r == false) {
         return;
     }
+
+    //remove o valor do DOM
+    var beneficiario = document.getElementById(idRow);
+    beneficiario.parentNode.removeChild(beneficiario);
+
+    //limpa o registro da variável global
+    for (var i = window.objBenef.length - 1; i >= 0; i--) {
+        if (window.objBenef[i].cpf === idRow) {
+            window.objBenef.splice(i, 1);
+        }
+    }
+}
+
+function editBenef(idRow){
+    var beneficiario = document.getElementById(idRow);
+    document.forms['formBeneficiarios']['Nome'].value = beneficiario.childNodes[1].innerText;
+    document.forms['formBeneficiarios']['CPF'].value = beneficiario.childNodes[0].innerText;
 
     //remove o valor do DOM
     var beneficiario = document.getElementById(idRow);
