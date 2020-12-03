@@ -23,6 +23,14 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
         [HttpPost]
+        public ActionResult Delete(long Id)
+        {
+            BoBeneficiario bo = new BoBeneficiario();
+            bo.Excluir(Id);
+            return Json("Cadastro removido com sucesso");
+        }
+
+        [HttpPost]
         public JsonResult Incluir(BeneficiarioModel model)
         {
             BoBeneficiario bo = new BoBeneficiario();

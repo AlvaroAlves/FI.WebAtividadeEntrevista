@@ -14,7 +14,7 @@ $(function () {
 
             for (var i = 0; i < window.objBenef.length; i++) {
                 var node = document.createElement("tr");
-                node.id = "ben" + window.objBenef[i].cpf;
+                node.id = window.objBenef[i].cpf;
                 var col = document.createElement("td");
                 col.innerHTML = window.objBenef[i].cpf;
                 node.appendChild(col);
@@ -25,7 +25,7 @@ $(function () {
                 col3.innerHTML = '<button type="button" class="btn btn-primary pull-right">Alterar</button>';
                 node.appendChild(col3);
                 var col4 = document.createElement("td");
-                col4.innerHTML = '<button type="button" class="btn btn-primary">Excluir</button>'
+                col4.innerHTML = '<button type="button" class="btn btn-primary" onClick = "removeBenef(\'' + window.objBenef[i].id + '\',\'' + node.id + '\');">Excluir</button>';
                 node.appendChild(col4);
                 dvTable.appendChild(node);
             }
@@ -49,7 +49,7 @@ function addBenef() {
 
     for (var i = 0; i < window.objBenef.length; i++) {
         var node = document.createElement("tr");
-        node.id = "ben" + window.objBenef[i].cpf;
+        node.id =  window.objBenef[i].cpf;
         var col = document.createElement("td");
         col.innerHTML = window.objBenef[i].cpf;
         node.appendChild(col);
@@ -60,7 +60,7 @@ function addBenef() {
         col3.innerHTML = '<button type="button" class="btn btn-primary pull-right">Alterar</button>';
         node.appendChild(col3);
         var col4 = document.createElement("td");
-        col4.innerHTML = '<button type="button" class="btn btn-primary">Excluir</button>'
+        col4.innerHTML = '<button type="button" class="btn btn-primary" onClick = "removeBenef(\'' + window.objBenef[i].id + '\',\'' + node.id + '\');">Excluir</button>';
         node.appendChild(col4);
         dvTable.appendChild(node);
     }
@@ -89,6 +89,42 @@ function incluirBenef(objBenef, idCliente) {
     });
 };
 
+function removeBenef(idBenef, idRow) {
+    var r = confirm("Deseja excluir o beneficiário?");
+    if (r == false) {
+        return;
+    }
+
+    //deleta o registro no banco
+    if (idBenef != undefined && idBenef != 0)
+        $.ajax({
+            url: urlDeleteBenef + "/" + idBenef,
+            method: "POST",
+            data: {
+                "Id": idBenef
+            },
+            error:
+                function (r) {
+                    return false;
+                },
+            success:
+                function (r) {
+                    return true;
+                }
+        });
+
+    //remove o valor do DOM
+    var beneficiario = document.getElementById(idRow);
+    beneficiario.parentNode.removeChild(beneficiario);
+
+    //limpa o registro da variável global
+    for (var i = window.objBenef.length - 1; i >= 0; i--) {
+        if (window.objBenef[i].cpf === idRow) {
+            window.objBenef.splice(i, 1);
+        }
+    }
+}
+
 function listBenef(idCliente) {
     $.ajax({
         url: urlListarBenef,
@@ -104,7 +140,7 @@ function listBenef(idCliente) {
             function (r) {
                 if (r.length > 0) {
                     for (var i = 0; i < r.length; i++) {
-                        objBenef.push(new beneficiario(r[i].id, r[i].Nome, r[i].CPF.replace(/[^\d]/g, "").replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")));
+                        objBenef.push(new beneficiario(r[i].Id, r[i].Nome, r[i].CPF.replace(/[^\d]/g, "").replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")));
                     }
                 }
             }
