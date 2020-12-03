@@ -39,7 +39,7 @@ function addBenef() {
 
     var form = document.forms["formBeneficiarios"].getElementsByTagName("input");
 
-    if (document.getElementById("ben" + form.CPF.value))
+    if (document.getElementById(form.CPF.value))
         return;
 
     objBenef.push(new beneficiario(form.idBenef.value, form.Nome.value, form.CPF.value))
@@ -95,24 +95,6 @@ function removeBenef(idBenef, idRow) {
         return;
     }
 
-    //deleta o registro no banco
-    if (idBenef != undefined && idBenef != 0)
-        $.ajax({
-            url: urlDeleteBenef + "/" + idBenef,
-            method: "POST",
-            data: {
-                "Id": idBenef
-            },
-            error:
-                function (r) {
-                    return false;
-                },
-            success:
-                function (r) {
-                    return true;
-                }
-        });
-
     //remove o valor do DOM
     var beneficiario = document.getElementById(idRow);
     beneficiario.parentNode.removeChild(beneficiario);
@@ -125,7 +107,9 @@ function removeBenef(idBenef, idRow) {
     }
 }
 
-function listBenef(idCliente) {
+async function listBenef(idCliente) {
+    objBenef = new Array();
+    
     $.ajax({
         url: urlListarBenef,
         method: "POST",
@@ -143,6 +127,7 @@ function listBenef(idCliente) {
                         objBenef.push(new beneficiario(r[i].Id, r[i].Nome, r[i].CPF.replace(/[^\d]/g, "").replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")));
                     }
                 }
+                return true;
             }
     });
 };

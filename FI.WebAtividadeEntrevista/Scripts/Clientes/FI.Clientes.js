@@ -25,17 +25,18 @@ $(document).ready(function () {
                     ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
             },
             success:
-               function (r) {
-                   for (var i = 0; i < window.objBenef.length; i++) {
-                       if (window.objBenef[i].id == "") {
-                           incluirBenef(window.objBenef[i], r)
-                       } else {
-                           altBenef(window.objBenef[i], r);
-                       }
-                   }
+                function (r) {
+                    if (r == 0) {
+                        ModalDialog("Erro!", "CPF já cadastrado no sistema!");
+                        return;
+                    }
+
+                    for (var i = 0; i < window.objBenef.length; i++) {
+                       incluirBenef(window.objBenef[i], r)
+                    }
                     ModalDialog("Sucesso!", "Cadastro realizado com sucesso!")
-                   $("#formCadastro")[0].reset();
-                   window.objBenef = new Array();
+                    $("#formCadastro")[0].reset();
+                    window.objBenef = new Array();
                 }
         });
     })

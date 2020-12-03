@@ -39,21 +39,17 @@ $(document).ready(function () {
                     ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
             },
             success:
-            function (r) {
-                for (var i = 0; i < window.objBenef.length; i++) {
-                    if (window.objBenef[i].id == "") {
-                        incluirBenef(window.objBenef[i], r)
-                    } else {
-                        altBenef(window.objBenef[i], r);
-                    }
-                }
+                function (r) {
+                const objSalvar = window.objBenef;
+
+                altBenef(objSalvar, r);
+
                 ModalDialog("Sucesso!", "Cadastro Atualizado com sucesso!")
                 $("#formCadastro")[0].reset();                                
                 window.location.href = urlRetorno;
             }
         });
     })
-    
 })
 
 function ModalDialog(titulo, texto) {

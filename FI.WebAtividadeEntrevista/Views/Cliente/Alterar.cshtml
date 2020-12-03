@@ -13,10 +13,10 @@
         var urlModal = '@Url.Action("Index", "Beneficiario")';
         var urlDeleteBenef = '@Url.Action("Delete", "Beneficiario")';
     </script>
-    @Scripts.Render("~/bundles/altClientes")
-    @Scripts.Render("~/bundles/mascara")
     @Scripts.Render("~/bundles/benef")
     @Scripts.Render("~/bundles/altbenef")
+    @Scripts.Render("~/bundles/mascara")
+    @Scripts.Render("~/bundles/altClientes")
     <script>
         listBenef(@Html.Raw(Model.Id.ToString()));
     </script>

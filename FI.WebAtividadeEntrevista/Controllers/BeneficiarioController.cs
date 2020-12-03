@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using WebAtividadeEntrevista.Models;
 using FI.AtividadeEntrevista.BLL;
 using FI.AtividadeEntrevista.DML;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -62,31 +65,90 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
         [HttpPost]
-        public JsonResult Alterar(BeneficiarioModel model)
+        public ActionResult Alterar(string list, string idCliente)
         {
-            BoBeneficiario bo = new BoBeneficiario();
+            List<Beneficiario> registrosAlterados = new List<Beneficiario>();
+            List<Beneficiario> beneficiarios = new BoBeneficiario().Listar(long.Parse(idCliente));
 
-            if (!this.ModelState.IsValid)
-            {
-                List<string> erros = (from item in ModelState.Values
-                                      from error in item.Errors
-                                      select error.ErrorMessage).ToList();
 
-                Response.StatusCode = 400;
-                return Json(string.Join(Environment.NewLine, erros));
-            }
-            else
+            JArray array = JArray.Parse(list);
+            foreach (JObject obj in array.Children<JObject>())
             {
-                bo.Alterar(new Beneficiario()
+                BeneficiarioModel model = new BeneficiarioModel();
+                
+                foreach (JProperty singleProp in obj.Properties())
                 {
-                    Id = model.Id,
-                    Nome = model.Nome,
-                    IdCliente = model.IdCliente,
-                    CPF = model.CPF.Replace(".", "").Replace("-", "")
-                });
+                    string name = singleProp.Name;
+                    
+                    switch (name)
+                    {
+                        case "id":
+                            model.Id = singleProp.Value.ToString() == "" ? 0 : long.Parse(singleProp.Value.ToString());
+                            break;
+                        case "cpf":
+                            model.CPF = singleProp.Value.ToString();
+                            break;
+                        case "nome":
+                            model.Nome = singleProp.Value.ToString();
+                            break;
+                    }
 
-                return Json("Cadastro alterado com sucesso");
+                    
+                }
+                model.IdCliente = long.Parse(idCliente);
+                
+                BoBeneficiario bo = new BoBeneficiario();
+
+                if (!this.ModelState.IsValid)
+                {
+                    List<string> erros = (from item in ModelState.Values
+                                          from error in item.Errors
+                                          select error.ErrorMessage).ToList();
+
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, erros));
+                }
+                else
+                {
+                    if (model.Id != 0)
+                    {
+                        bo.Alterar(new Beneficiario()
+                        {
+                            Id = model.Id,
+                            Nome = model.Nome,
+                            IdCliente = model.IdCliente,
+                            CPF = model.CPF.Replace(".", "").Replace("-", "")
+                        });
+                    }
+                    else
+                    {
+                        model.Id = bo.Incluir(new Beneficiario()
+                        {
+                            Nome = model.Nome,
+                            IdCliente = model.IdCliente,
+                            CPF = model.CPF.Replace(".", "").Replace("-", "")
+                        });
+                    }
+
+                    registrosAlterados.Add( new Beneficiario()
+                    {
+                        Id = model.Id,
+                        Nome = model.Nome,
+                        IdCliente = model.IdCliente,
+                        CPF = model.CPF.Replace(".", "").Replace("-", "")
+                    });
+                }
             }
+
+            var Excluidos = beneficiarios.Where(x => !registrosAlterados.Any(z => z.Id == x.Id)).ToList();
+
+            foreach(Beneficiario excluido in Excluidos)
+            {
+                BoBeneficiario bo = new BoBeneficiario();
+                bo.Excluir(excluido.Id);
+            }
+
+            return Json("Cadastro alterado com sucesso");
         }
 
         [HttpGet]

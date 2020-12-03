@@ -249,7 +249,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Beneficiarios\FI.Benef.js" />
-    <Content Include="Scripts\Beneficiarios\FI_AltBenef.js" />
+    <Content Include="Scripts\Beneficiarios\FI.AltBenef.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
